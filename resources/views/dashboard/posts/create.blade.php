@@ -1,0 +1,1 @@
+@include('dashboard.posts._form', ['title' => 'Create Post'])
