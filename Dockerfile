@@ -18,6 +18,7 @@ RUN apk add --no-cache \
     unzip \
     git \
     sqlite-dev \
+    postgresql-dev \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
