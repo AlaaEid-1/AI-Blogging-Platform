@@ -34,10 +34,10 @@ exit(1);
 "
 
 echo "Running migrations..."
-php artisan migrate --force
+php artisan migrate:fresh --force
 
 echo "Linking storage..."
-# We use || true here because storage:link might fail if the link already exists, 
+# We use || true here because storage:link might fail if the link already exists,
 # and we don't want to fail the entire deployment for that.
 php artisan storage:link || true
 
