@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 AI-Blogging-Platform
+# 🚀 Write AI
 
 *The Next-Generation AI-Powered Content Management & Blogging Platform*
 
@@ -20,9 +20,9 @@ Elevate your content creation with an intelligent platform that generates SEO-op
 
 ## 📖 Overview
 
-**AI-Blogging-Platform** is a highly scalable, robust content management system (CMS) and blogging platform designed for modern creators, authors, and publishers.
+**Write AI** is a highly scalable, robust content management system (CMS) and blogging platform designed for modern creators, authors, and publishers.
 
-Creating high-quality, SEO-optimized blog posts from scratch is time-consuming and often causes writer's block. **AI-Blogging-Platform** solves this by integrating Artificial Intelligence deeply into the drafting process. By simply providing a topic prompt, the platform's AI controller acts as an expert SEO specialist, generating a complete, richly-formatted article—including a catchy title, meta excerpt, HTML content, and relevant tags—in seconds. The platform also offers robust social engagement features, allowing readers to interact with authors through comments, favorites, bookmarks, and a comprehensive follow system.
+Creating high-quality, SEO-optimized blog posts from scratch is time-consuming and often causes writer's block. **Write AI** solves this by integrating Artificial Intelligence deeply into the drafting process. By simply providing a topic prompt, the platform's AI controller acts as an expert SEO specialist, generating a complete, richly-formatted article—including a catchy title, meta excerpt, HTML content, and relevant tags—in seconds. The platform also offers robust social engagement features, allowing readers to interact with authors through comments, favorites, bookmarks, and a comprehensive follow system.
 
 ---
 
@@ -143,7 +143,7 @@ The relational database is highly normalized and relies heavily on Eloquent rela
 
 ## 🤖 AI Workflow (Under the Hood)
 
-AI-Blogging-Platform integrates seamlessly with Google's Gemini models:
+Write AI integrates seamlessly with Google's Gemini models:
 
 1. **User Prompt:** A user submits a topic via the Dashboard (`AiController`).
 2. **System Injection:** The backend formulates a strict system prompt requiring the AI to act as an SEO specialist and format the output exclusively as a specific JSON schema.
@@ -157,7 +157,7 @@ AI-Blogging-Platform integrates seamlessly with Google's Gemini models:
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/yourusername/write-ai.git
-cd AI-Blogging-Platform
+cd write-ai
 ```
 
 ### 2. Install Dependencies
@@ -210,7 +210,7 @@ Visit `http://localhost:8000` in your browser.
 The following variables in the `.env` file are crucial for the application to function:
 
 ```env
-APP_NAME="AI-Blogging-Platform"
+APP_NAME="Write AI"
 APP_URL=http://localhost:8000
 
 DB_CONNECTION=mysql
@@ -237,6 +237,16 @@ CACHE_STORE=database
 - **Eager Loading:** Used extensively in controllers (e.g., `Post::with('category', 'user')`) to eradicate the N+1 query problem.
 - **Asynchronous Queues:** Email dispatching and notification generation are pushed to the database queue rather than holding up the HTTP response.
 - **Event-Driven Counters:** Page views are handled via the `PostViewed` event rather than synchronous database writes during page loads.
+
+---
+
+## 📸 Screenshots
+
+*(Add paths to your local images here)*
+
+![Home Page](https://via.placeholder.com/800x400.png?text=Home+Page+Preview)  
+![AI Dashboard](https://via.placeholder.com/800x400.png?text=AI+Dashboard+Generation)  
+![Post Details](https://via.placeholder.com/800x400.png?text=Post+Details+&+Comments)  
 
 ---
 
