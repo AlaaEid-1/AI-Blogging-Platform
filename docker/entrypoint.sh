@@ -44,7 +44,7 @@ php artisan storage:link || true
 echo "Caching configuration and routes for production..."
 php artisan config:cache
 php artisan route:cache
-php artisan view:cache
+php artisan view:cache || true
 php artisan event:cache
 
 echo "Starting supervisord..."
