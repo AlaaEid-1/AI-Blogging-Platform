@@ -10,15 +10,22 @@ class HomeController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
-    {
-        return view('home', [
-            'posts' => Post::query()
-                ->published()
-                ->with(['user', 'tags'])
-                ->withCount(['favorites', 'comments'])
-                ->latest()
-                ->get()
-        ]);
-    }
+   public function __invoke(Request $request)
+{
+    return view('home', [
+        'posts' => Post::query()
+            ->published()
+            ->with([
+                'user',
+                'tags'
+            ])
+            ->withCount([
+                'favorites',
+                'comments'
+            ])
+            ->latest()
+            ->limit(10)
+            ->get()
+    ]);
+}
 }
