@@ -16,7 +16,7 @@ Route::get('/posts/{slug}', [\App\Http\Controllers\PostController::class, 'show'
     ->name('posts.show');
 
 Route::get('/users/{username}', [\App\Http\Controllers\ProfileController::class, 'show'])
-    ->name('users.show');
+    ->name('profile.show');
 
 Route::middleware('auth')->group(function () {
     Route::post('/posts/{post}/favorite', [\App\Http\Controllers\FavoriteController::class, 'toggle'])->name('favorites.toggle');
