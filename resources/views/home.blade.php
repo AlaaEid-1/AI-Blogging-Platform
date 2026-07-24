@@ -44,6 +44,7 @@
                 <p class="text-text-secondary text-sm">Be the first to create an amazing post.</p>
             </div>
         @endforelse
+        {{ $posts->links() }}
     </div>
 
     </div>
