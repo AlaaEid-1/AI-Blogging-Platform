@@ -55,7 +55,8 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 # Setup entrypoint
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh /etc/nginx/nginx.conf /etc/supervisord.conf && \
+    chmod +x /usr/local/bin/entrypoint.sh
 
 # Render provides the PORT environment variable
 EXPOSE 8080

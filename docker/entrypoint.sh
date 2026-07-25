@@ -1,14 +1,14 @@
 #!/bin/sh
 
 # Exit immediately if a command exits with a non-zero status.
-# This ensures the deployment fails if migrations or other critical steps fail.
 set -e
 
 # Use the PORT environment variable provided by Render, or default to 8080
 export PORT=${PORT:-8080}
 
-# Replace __PORT__ in nginx.conf
-sed -i "s/__PORT__/$PORT/g" /etc/nginx/nginx.conf
+# Replace __PORT__ in nginx.conf. We use tr to ensure no trailing \r characters exist
+CLEAN_PORT=$(echo "$PORT" | tr -d '\r')
+sed -i "s/__PORT__/$CLEAN_PORT/g" /etc/nginx/nginx.conf
 
 echo "Waiting for database connection..."
 # Use Laravel's built-in DB connection to wait until the database is ready
@@ -37,8 +37,7 @@ echo "Running migrations..."
 php artisan migrate --force
 
 echo "Linking storage..."
-# We use || true here because storage:link might fail if the link already exists,
-# and we don't want to fail the entire deployment for that.
+# We use || true here because storage:link might fail if the link already exists
 php artisan storage:link || true
 
 echo "Caching configuration and routes for production..."
@@ -49,7 +48,7 @@ php artisan view:cache || true
 php artisan event:cache
 
 echo "Fixing permissions for runtime files..."
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 mkdir -p /run/nginx
 
 echo "Starting supervisord..."
