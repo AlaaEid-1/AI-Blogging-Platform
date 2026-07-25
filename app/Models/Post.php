@@ -193,6 +193,6 @@ class Post extends Model
 
     public function wordCount(): int
     {
-        return \str_word_count($this->content);
+        return \str_word_count((string) $this->content);
     }
 }

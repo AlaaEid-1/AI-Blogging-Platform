@@ -15,10 +15,10 @@ public function __invoke(Request $request)
         return view('home', [
             'posts' => Post::query()
                 ->published()
-                ->with(['user', 'tags'])
+                ->with(['user.roles', 'tags'])
                 ->withCount(['favorites', 'comments'])
                 ->latest()
-                ->get()
+                ->paginate(10)
         ]);
     }
 }

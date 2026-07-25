@@ -34,7 +34,7 @@ exit(1);
 "
 
 echo "Running migrations..."
-php artisan migrate:fresh --force
+php artisan migrate --force
 
 echo "Linking storage..."
 # We use || true here because storage:link might fail if the link already exists,
@@ -42,6 +42,7 @@ echo "Linking storage..."
 php artisan storage:link || true
 
 echo "Caching configuration and routes for production..."
+mkdir -p storage/framework/views
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache || true

@@ -39,6 +39,10 @@
                 <p class="text-text-secondary text-sm">Be the first to create an amazing post.</p>
             </div>
         @endforelse
+
+        <div class="mt-8">
+            {{ $posts->links() }}
+        </div>
     </div>
 
     </div>
