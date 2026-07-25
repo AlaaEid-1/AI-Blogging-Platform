@@ -59,13 +59,24 @@ class AppServiceProvider extends ServiceProvider
         }
 
         View::composer('components.layout.right-sidebar', function ($view) {
-            $popularAuthors = Cache::remember('popular_authors', now()->addHour(), function () {
-                return User::has('posts')
+            $popularAuthors = Cache::get('popular_authors');
+
+            $isValid = $popularAuthors instanceof \Illuminate\Database\Eloquent\Collection;
+            if ($isValid && $popularAuthors->isNotEmpty()) {
+                if (! ($popularAuthors->first() instanceof User)) {
+                    $isValid = false;
+                }
+            }
+
+            if (! $isValid) {
+                $popularAuthors = User::has('posts')
                     ->withCount('posts')
                     ->orderByDesc('posts_count')
                     ->take(4)
                     ->get();
-            });
+                Cache::put('popular_authors', $popularAuthors, now()->addHour());
+            }
+
             $view->with('popularAuthors', $popularAuthors);
         });
     }
