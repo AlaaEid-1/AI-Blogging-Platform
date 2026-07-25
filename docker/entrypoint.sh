@@ -48,5 +48,9 @@ php artisan route:cache
 php artisan view:cache || true
 php artisan event:cache
 
+echo "Fixing permissions for runtime files..."
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+mkdir -p /run/nginx
+
 echo "Starting supervisord..."
 exec /usr/bin/supervisord -c /etc/supervisord.conf
