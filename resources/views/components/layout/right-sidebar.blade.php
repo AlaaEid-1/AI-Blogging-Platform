@@ -48,13 +48,6 @@
         <div>
             <h3 class="font-bold text-text-primary mb-4 text-base">Popular Authors</h3>
             <div class="space-y-4">
-                @php
-                    $popularAuthors = \App\Models\User::has('posts')
-                        ->withCount('posts')
-                        ->orderByDesc('posts_count')
-                        ->take(4)
-                        ->get();
-                @endphp
                 @foreach($popularAuthors as $author)
                 <div class="flex items-center justify-between gap-3 group">
                     <a href="{{ route('users.show', $author->username) }}" class="flex items-center gap-3 overflow-hidden flex-1">
@@ -66,7 +59,7 @@
                     </a>
                     @if(auth()->check() && auth()->id() !== $author->id)
                         @php
-                            $isFollowing = auth()->user()->followings()->where('user_id', $author->id)->exists();
+                            $isFollowing = auth()->user()->isFollowing($author->id);
                         @endphp
                         @if($isFollowing)
                             <form action="{{ route('users.unfollow', $author->id) }}" method="POST">

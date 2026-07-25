@@ -9,6 +9,9 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -54,5 +57,16 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             });
         }
+
+        View::composer('components.layout.right-sidebar', function ($view) {
+            $popularAuthors = Cache::remember('popular_authors', now()->addHour(), function () {
+                return User::has('posts')
+                    ->withCount('posts')
+                    ->orderByDesc('posts_count')
+                    ->take(4)
+                    ->get();
+            });
+            $view->with('popularAuthors', $popularAuthors);
+        });
     }
 }

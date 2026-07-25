@@ -109,6 +109,16 @@ class User extends Authenticatable
         return in_array($postId, $this->bookmarksCache);
     }
 
+    protected ?array $followingsCache = null;
+
+    public function isFollowing(int $userId): bool
+    {
+        if ($this->followingsCache === null) {
+            $this->followingsCache = $this->followings()->pluck('user_id')->toArray();
+        }
+        return in_array($userId, $this->followingsCache);
+    }
+
     public function hasAbility(string $ability): bool
     {
         // Force the relation to be loaded once, so it doesn't query repeatedly
