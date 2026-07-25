@@ -90,10 +90,34 @@ class User extends Authenticatable
         return 'App.Models.User.' . $this->id;
     }
 
+    protected ?array $favoritesCache = null;
+    protected ?array $bookmarksCache = null;
+
+    public function hasFavorited(int $postId): bool
+    {
+        if ($this->favoritesCache === null) {
+            $this->favoritesCache = $this->favorites()->pluck('post_id')->toArray();
+        }
+        return in_array($postId, $this->favoritesCache);
+    }
+
+    public function hasBookmarked(int $postId): bool
+    {
+        if ($this->bookmarksCache === null) {
+            $this->bookmarksCache = $this->bookmarks()->pluck('post_id')->toArray();
+        }
+        return in_array($postId, $this->bookmarksCache);
+    }
+
     public function hasAbility(string $ability): bool
     {
+        // Force the relation to be loaded once, so it doesn't query repeatedly
+        if (! $this->relationLoaded('roles')) {
+            $this->load('roles');
+        }
+
         foreach ($this->roles as $role) {
-            if (in_array($ability, $role->abilities)) {
+            if (is_array($role->abilities) && in_array($ability, $role->abilities)) {
                 return true;
             }
         }

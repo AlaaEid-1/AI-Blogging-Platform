@@ -61,18 +61,8 @@
     <div class="px-5 py-3 border-t border-border flex items-center justify-between">
         <div class="flex items-center gap-1 sm:gap-4">
             @php
-                static $userFavorites = null;
-                static $userBookmarks = null;
-                if (auth()->check()) {
-                    if ($userFavorites === null) {
-                        $userFavorites = auth()->user()->favorites()->pluck('post_id')->toArray();
-                    }
-                    if ($userBookmarks === null) {
-                        $userBookmarks = auth()->user()->bookmarks()->pluck('post_id')->toArray();
-                    }
-                }
-                $hasFavorited = auth()->check() ? in_array($post->id, $userFavorites) : false;
-                $hasBookmarked = auth()->check() ? in_array($post->id, $userBookmarks) : false;
+                $hasFavorited = auth()->check() ? auth()->user()->hasFavorited($post->id) : false;
+                $hasBookmarked = auth()->check() ? auth()->user()->hasBookmarked($post->id) : false;
             @endphp
             @auth
                 <form action="{{ route('favorites.toggle', $post->id) }}" method="POST" class="inline">
