@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-// #[Appends(['read_time'])]
+#[Appends(['read_time'])]
 #[ScopedBy(OwnerScope::class)]
 #[ObservedBy(PostObserver::class)]
 #[UseResource(PostResource::class)]

@@ -31,20 +31,14 @@
     <!-- Posts Feed -->
     <div class="flex flex-col gap-6">
         @forelse ($posts as $post)
-
-    <div class="p-4 border rounded">
-        <h2>{{ $post->title }}</h2>
-        <p>{{ $post->user?->name }}</p>
-    </div>
-
-@empty
+            <x-post.card :post="$post" />
+        @empty
             <div class="text-center py-16 bg-surface/50 rounded-3xl border border-border/40 shadow-inner">
                 <span class="material-symbols-outlined text-5xl text-text-tertiary mb-4 opacity-50">article</span>
                 <h3 class="text-xl font-bold text-text-primary mb-2">No posts yet</h3>
                 <p class="text-text-secondary text-sm">Be the first to create an amazing post.</p>
             </div>
         @endforelse
-        {{ $posts->links() }}
     </div>
 
     </div>
