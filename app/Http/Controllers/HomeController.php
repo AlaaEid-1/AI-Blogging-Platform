@@ -7,18 +7,14 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-public function __invoke(Request $request)
+    public function __invoke(Request $request)
     {
-        return view('home', [
-            'posts' => Post::query()
-                ->published()
-                ->with(['user.roles', 'tags'])
-                ->withCount(['favorites', 'comments'])
-                ->latest()
-                ->paginate(10)
-        ]);
+        $posts = Post::query()
+            ->published()
+            ->with(['user', 'tags'])
+            ->latest()
+            ->paginate(10);
+
+        return view('home', compact('posts'));
     }
 }
