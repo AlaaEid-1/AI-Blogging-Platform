@@ -10,7 +10,9 @@ use App\Http\Middleware\EnsureUserType;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', HomeController::class)->name('home');
+Route::get('/', function () {
+    return 'AI Blogging is Live';
+})->name('home');
 
 Route::get('/posts/{slug}', [\App\Http\Controllers\PostController::class, 'show'])
     ->name('posts.show');
