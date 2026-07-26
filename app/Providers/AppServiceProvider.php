@@ -30,54 +30,5 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
-        if (request()->is('dashboard/*')) {
-            Paginator::useTailwind();
-        } else {
-            Paginator::defaultView('pagination.custom-tailwind');
-        }
-
-        JsonResource::withoutWrapping();
-
-        //Event::listen(PostViewed::class, IncrementPostViews::class);
-
-        Gate::before(function ($user, $ability) {
-            if ($user->type == 'super-admin') {
-                return true;
-            }
-        });
-
-        foreach (config('abilities') as $key => $value) {
-            Gate::define($key, function ($user) use ($key): bool {
-                foreach ($user->roles as $role) {
-                    if (in_array($key, $role->abilities)) {
-                        return true;
-                    }
-                }
-                return false;
-            });
-        }
-
-        View::composer('components.layout.right-sidebar', function ($view) {
-            $popularAuthors = Cache::get('popular_authors');
-
-            $isValid = $popularAuthors instanceof \Illuminate\Database\Eloquent\Collection;
-            if ($isValid && $popularAuthors->isNotEmpty()) {
-                if (! ($popularAuthors->first() instanceof User)) {
-                    $isValid = false;
-                }
-            }
-
-            if (! $isValid) {
-                $popularAuthors = User::has('posts')
-                    ->withCount('posts')
-                    ->orderByDesc('posts_count')
-                    ->take(4)
-                    ->get();
-                Cache::put('popular_authors', $popularAuthors, now()->addHour());
-            }
-
-            $view->with('popularAuthors', $popularAuthors);
-        });
-    }
+   {}
 }
