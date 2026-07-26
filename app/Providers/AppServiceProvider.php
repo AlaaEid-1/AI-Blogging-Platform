@@ -62,29 +62,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         View::composer('components.layout.right-sidebar', function ($view) {
-            $popularAuthors = Cache::remember('popular_authors_v3', now()->addHour(), function () {
-                $topUserIds = Post::select('user_id', DB::raw('count(*) as posts_count'))
-                    ->where('status', PostStatus::Published)
-                    ->groupBy('user_id')
-                    ->orderByDesc('posts_count')
-                    ->take(4)
-                    ->get()
-                    ->pluck('posts_count', 'user_id');
-
-                if ($topUserIds->isEmpty()) {
-                    return collect();
-                }
-
-                return User::whereIn('id', $topUserIds->keys())
-                    ->get()
-                    ->map(function ($user) use ($topUserIds) {
-                        $user->posts_count = $topUserIds[$user->id];
-
-                        return $user;
-                    })
-                    ->sortByDesc('posts_count')
-                    ->values();
-            });
+            $popularAuthors = collect();
 
             $view->with('popularAuthors', $popularAuthors);
         });
