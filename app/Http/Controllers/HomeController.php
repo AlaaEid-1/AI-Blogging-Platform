@@ -11,7 +11,6 @@ class HomeController extends Controller
     {
         $posts = Post::query()
             ->published()
-            ->with(['user', 'tags'])
             ->latest()
             ->paginate(10);
 
