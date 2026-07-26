@@ -1,6 +1,6 @@
 @props([
-    'title' => config('app.name', 'Write AI'), 
-    'hasSidebar' => true, 
+    'title' => config('app.name', 'Write AI'),
+    'hasSidebar' => true,
     'hasRightSidebar' => false,
     'authLayout' => false
 ])
@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
 
@@ -25,7 +25,7 @@
     </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
@@ -45,10 +45,10 @@
     </div>
 
     <div class="h-screen flex w-full relative overflow-hidden">
-        
+
         <!-- Mobile Sidebar Overlay -->
         <div x-show="mobileSidebarOpen" @click="mobileSidebarOpen = false" x-transition.opacity class="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden" x-cloak></div>
-        
+
         <!-- Left Sidebar (Desktop) -->
         @if($hasSidebar && !$authLayout)
             <x-layout.sidebar />
@@ -118,24 +118,24 @@
     </div>
 
     <!-- Global Toast Notification -->
-    <div x-data="{ toasts: [] }" 
+    <div x-data="{ toasts: [] }"
          @notify.window="
             let toast = { id: Date.now(), message: $event.detail.message, type: $event.detail.type };
             toasts.push(toast);
             setTimeout(() => { toasts = toasts.filter(t => t.id !== toast.id) }, 3000);
          "
          class="fixed bottom-24 lg:bottom-10 right-4 lg:right-10 z-50 flex flex-col gap-2 pointer-events-none">
-        
+
         <template x-for="toast in toasts" :key="toast.id">
             <div x-transition.duration.300ms
                  class="px-4 py-3 rounded-xl shadow-premium border backdrop-blur-md text-sm font-medium flex items-center gap-2 pointer-events-auto"
                  :class="toast.type === 'error' ? 'bg-red-500/10 border-red-500/20 text-red-600' : 'bg-surface border-border text-text-primary'">
-                
-                <span class="material-symbols-outlined text-[18px]" 
+
+                <span class="material-symbols-outlined text-[18px]"
                       :class="toast.type === 'error' ? 'text-red-500' : 'text-primary'"
                       x-text="toast.type === 'error' ? 'error' : 'check_circle'">
                 </span>
-                
+
                 <span x-text="toast.message"></span>
             </div>
         </template>

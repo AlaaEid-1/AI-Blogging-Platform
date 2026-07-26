@@ -49,6 +49,9 @@
             <h3 class="font-bold text-text-primary mb-4 text-base">Popular Authors</h3>
             <div class="space-y-4">
                 @foreach($popularAuthors as $author)
+                @if(! $author instanceof \App\Models\User)
+                    @continue
+                @endif
                 <div class="flex items-center justify-between gap-3 group">
                     <a href="{{ route('users.show', $author->username) }}" class="flex items-center gap-3 overflow-hidden flex-1">
                         <x-ui.avatar :src="$author->avatar_url ?? asset('images/avatars/blank.png')" :alt="$author->name" size="sm" />

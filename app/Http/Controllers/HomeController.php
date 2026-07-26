@@ -13,7 +13,7 @@ class HomeController extends Controller
             ->published()
             ->with(['user', 'tags'])
             ->latest()
-            ->paginate(10);
+            ->paginate(2);
 
         return view('home', compact('posts'));
     }

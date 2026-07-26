@@ -62,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         View::composer('components.layout.right-sidebar', function ($view) {
-            $popularAuthors = Cache::remember('popular_authors', now()->addHour(), function () {
+            $popularAuthors = Cache::remember('popular_authors_v3', now()->addHour(), function () {
                 $topUserIds = Post::select('user_id', DB::raw('count(*) as posts_count'))
                     ->where('status', PostStatus::Published)
                     ->groupBy('user_id')

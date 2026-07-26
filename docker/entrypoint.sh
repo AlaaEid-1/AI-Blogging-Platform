@@ -54,26 +54,26 @@ echo "Linking storage..."
 php artisan storage:link || true
 
 
-echo "Clearing old Laravel caches..."
-
-php artisan optimize:clear || true
-
-
-echo "Preparing Laravel cache..."
+echo "Preparing Laravel cache directories..."
 
 mkdir -p storage/framework/views
-mkdir -p storage/framework/cache
+mkdir -p storage/framework/cache/data
 mkdir -p storage/framework/sessions
+mkdir -p storage/logs
+mkdir -p bootstrap/cache
 
+echo "Clearing old Laravel caches safely..."
+
+php artisan view:clear || true
+php artisan cache:clear || true
+php artisan route:clear || true
+php artisan config:clear || true
+
+echo "Building Laravel cache for production..."
 
 php artisan config:cache || true
-
-# Some projects contain closure routes.
-# Do not break deployment because of route cache.
 php artisan route:cache || true
-
 php artisan view:cache || true
-
 php artisan event:cache || true
 
 
