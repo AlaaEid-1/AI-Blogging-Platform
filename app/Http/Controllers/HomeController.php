@@ -14,6 +14,6 @@ class HomeController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('home', compact('posts'));
+        return "HOME WORKS";
     }
 }
