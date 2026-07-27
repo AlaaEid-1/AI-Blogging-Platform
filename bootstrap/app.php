@@ -17,6 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
         apiPrefix: 'app/api/'
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*');
+
         $middleware->web([
             UpdateUserLastActivityTime::class,
         ]);
