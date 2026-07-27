@@ -11,7 +11,8 @@ class HomeController extends Controller
 {
     $posts = Post::query()
         ->published()
-        ->with(['user', 'tags'])
+        ->with(['user.roles', 'tags'])
+        ->withCount(['favorites', 'comments'])
         ->latest()
         ->paginate(2);
 
