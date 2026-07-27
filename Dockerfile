@@ -97,6 +97,14 @@ RUN { \
     echo "opcache.fast_shutdown=1"; \
 } > /usr/local/etc/php/conf.d/opcache.ini
 
+# ── Custom PHP configuration for file uploads ─────────────────
+RUN { \
+    echo "upload_max_filesize=10M"; \
+    echo "post_max_size=20M"; \
+    echo "memory_limit=256M"; \
+} > /usr/local/etc/php/conf.d/uploads.ini
+
+
 # ── Nginx ────────────────────────────────────────────────────
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 

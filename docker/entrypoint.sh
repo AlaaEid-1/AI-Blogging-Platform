@@ -67,26 +67,35 @@ echo "==> Running migrations..."
 php artisan migrate --force
 
 
-# ── Storage link ─────────────────────────────────────────────────────────────
-echo "==> Linking storage..."
+# ── Ensure storage and cache directories exist ───────────────────────────────
+echo "==> Preparing storage and cache directories..."
 
-# Only link if not already linked (avoids error on re-deploy)
-if [ ! -L "/var/www/html/public/storage" ]; then
-    php artisan storage:link
-    echo "    ✔ Storage link created"
-else
-    echo "    ✔ Storage link already exists"
-fi
-
-
-# ── Ensure cache directories exist ───────────────────────────────────────────
-echo "==> Preparing cache directories..."
-
+mkdir -p storage/app/public/covers
+mkdir -p storage/app/public/images
 mkdir -p storage/framework/views
 mkdir -p storage/framework/cache/data
 mkdir -p storage/framework/sessions
 mkdir -p storage/logs
 mkdir -p bootstrap/cache
+
+
+# ── Storage link ─────────────────────────────────────────────────────────────
+echo "==> Linking storage..."
+
+# Only link if not already linked (avoids error on re-deploy)
+if [ ! -L "/var/www/html/public/storage" ]; then
+    php artisan storage:link || true
+    echo "    ✔ Storage link command executed"
+else
+    echo "    ✔ Storage link already exists"
+fi
+
+if [ -L "/var/www/html/public/storage" ] || [ -d "/var/www/html/public/storage" ]; then
+    echo "    ✔ public/storage exists"
+else
+    echo "    WARNING: public/storage does not exist or link failed"
+fi
+
 
 
 # ── Clear stale caches (safe with || true) ───────────────────────────────────

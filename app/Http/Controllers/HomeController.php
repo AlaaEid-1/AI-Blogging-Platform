@@ -14,7 +14,7 @@ class HomeController extends Controller
         ->with(['user.roles', 'tags'])
         ->withCount(['favorites', 'comments'])
         ->latest()
-        ->paginate(2);
+        ->paginate(5);
 
     return view('home', compact('posts'));
 }
