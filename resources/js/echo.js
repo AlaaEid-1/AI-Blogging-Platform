@@ -1,25 +1,23 @@
 import Echo from 'laravel-echo';
-
 import Pusher from 'pusher-js';
+
 window.Pusher = Pusher;
 
-// window.Echo = new Echo({
-//     broadcaster: "pusher",
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-//     forceTLS: true,
-//     wsHost: import.meta.env.VITE_PUSHER_HOST,
-//     wsPort: import.meta.env.VITE_PUSHER_PORT,
-//     wssPort: import.meta.env.VITE_PUSHER_PORT,
-//     enabledTransports: ["ws", "wss"],
-// });
+/**
+ * Only initialise Echo when Reverb credentials are present.
+ * This prevents runtime WebSocket errors on pages where broadcasting
+ * is not configured (e.g. staging, or when VITE_REVERB_APP_KEY is empty).
+ */
+const reverbKey = import.meta.env.VITE_REVERB_APP_KEY;
 
-window.Echo = new Echo({
-    broadcaster: 'reverb',
-    key: import.meta.env.VITE_REVERB_APP_KEY,
-    wsHost: import.meta.env.VITE_REVERB_HOST,
-    wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
-    wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
-    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
-    enabledTransports: ['ws', 'wss'],
-});
+if (reverbKey) {
+    window.Echo = new Echo({
+        broadcaster: 'reverb',
+        key: reverbKey,
+        wsHost: import.meta.env.VITE_REVERB_HOST,
+        wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
+        wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
+        forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
+        enabledTransports: ['ws', 'wss'],
+    });
+}
