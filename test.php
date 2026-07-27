@@ -1,1 +1,0 @@
-<?php static  = 0; ++; echo  . " \;
