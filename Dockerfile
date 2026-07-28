@@ -15,7 +15,7 @@ COPY resources/ ./resources/
 COPY vite.config.js ./
 # laravel-vite-plugin needs the public directory to exist
 COPY public/ ./public/
-
+COPY docker/certs/ca.pem /etc/ssl/certs/tidb-ca.pem
 # Provide a minimal .env so Vite env imports resolve cleanly
 # (no real secrets needed at build time — VITE_* vars can be
 #  injected at container runtime via ASSET_URL if desired)
