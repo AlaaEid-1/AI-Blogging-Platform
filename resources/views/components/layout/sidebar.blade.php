@@ -44,7 +44,7 @@
 
         <!-- Dropdown menu -->
         <div x-show="open" @click.away="open = false" x-transition.opacity.duration.200ms class="absolute bottom-full mb-2 left-0 w-full bg-surface rounded-xl border border-border shadow-md py-1 z-50" x-cloak>
-            <a href="{{ route('users.show', auth()->user()->username) }}" class="flex items-center gap-2 px-3 py-2 text-sm text-text-secondary hover:text-primary hover:bg-surface-hover transition-colors">
+            <a href="{{ route('profile.show', auth()->user()->username) }}" class="flex items-center gap-2 px-3 py-2 text-sm text-text-secondary hover:text-primary hover:bg-surface-hover transition-colors">
                 <span class="material-symbols-outlined text-[18px]">person</span>
                 View Profile
             </a>

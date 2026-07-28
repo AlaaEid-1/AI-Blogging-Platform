@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\PostStatus;
 use App\Rules\Restricted;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,23 +31,23 @@ class PostRequest extends FormRequest
         $id = $this->route('post', 0);
 
         return [
-            //'title' => ['sometimes', 'required', 'min:3', 'max:255'],
+            // 'title' => ['sometimes', 'required', 'min:3', 'max:255'],
             'title' => ['required', 'min:3', 'max:255', Rule::unique('posts', 'title')->ignore($id)],
             'content' => [
                 'required',
                 'string',
                 'max:999999',
-                new Restricted(['god'])
+                new Restricted(['god']),
             ],
             'cover' => [
                 'nullable',
                 'image',
                 'mimetypes:image/png,image/jpeg',
                 // 'dimensions:min_width=100,min_height=200,max_width=2000,max_height=2000',
-                'max:1024'
+                'max:1024',
             ],
             'tags' => ['nullable', 'string'],
-            'status' => ['required', Rule::enum(\App\Enums\PostStatus::class)],
+            'status' => ['required', Rule::enum(PostStatus::class)],
             'published_at' => ['nullable', 'date'],
             'meta' => ['nullable', 'array'],
             'meta.title' => ['nullable', 'string', 'max:255'],

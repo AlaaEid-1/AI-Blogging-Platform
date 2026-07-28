@@ -4,13 +4,8 @@ namespace App\Providers;
 
 use App\Events\PostViewed;
 use App\Listeners\IncrementPostViews;
-use App\Enums\PostStatus;
-use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
@@ -44,20 +39,14 @@ class AppServiceProvider extends ServiceProvider
         // Event::listen(PostViewed::class, IncrementPostViews::class);
 
         Gate::before(function ($user, $ability) {
-            if ($user->type == 'super-admin') {
+            if ($user->type === 'super-admin' || $user->type === 'admin') {
                 return true;
             }
         });
 
         foreach (config('abilities') as $key => $value) {
             Gate::define($key, function ($user) use ($key): bool {
-                foreach ($user->roles as $role) {
-                    if (in_array($key, $role->abilities)) {
-                        return true;
-                    }
-                }
-
-                return false;
+                return $user->hasAbility($key);
             });
         }
 

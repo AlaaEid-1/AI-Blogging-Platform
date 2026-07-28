@@ -22,7 +22,7 @@ class FollowController extends Controller
 
         $exists = $follower->followings()->where('user_id', $user->id)->exists();
 
-        if (!$exists && $follower->id != $user->id) {
+        if (! $exists && $follower->id != $user->id) {
             $follower->followings()->attach($user->id, [
                 'id' => Str::uuid(),
                 'created_at' => now(),

@@ -4,12 +4,12 @@
     <!-- Header: User info & Actions -->
     <div class="p-5 flex items-center justify-between">
         <div class="flex items-center gap-3">
-            <a href="{{ route('users.show', $post->user?->username ?? 'unknown') }}" class="shrink-0">
+            <a href="{{ route('profile.show', $post->user?->username ?? 'unknown') }}" class="shrink-0">
                 <x-ui.avatar :src="$post->user?->avatar_url ?? asset('images/avatars/blank.png')" :alt="$post->user?->name ?? 'Unknown User'" size="md" />
             </a>
             <div>
                 <div class="flex items-center gap-1">
-                    <a href="{{ route('users.show', $post->user?->username ?? 'unknown') }}" class="font-semibold text-text-primary text-sm hover:text-primary transition-colors">{{ $post->user?->name ?? 'Unknown User' }}</a>
+                    <a href="{{ route('profile.show', $post->user?->username ?? 'unknown') }}" class="font-semibold text-text-primary text-sm hover:text-primary transition-colors">{{ $post->user?->name ?? 'Unknown User' }}</a>
                     @if($post->user?->hasAbility('verified') ?? false)
                         <span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
                     @endif

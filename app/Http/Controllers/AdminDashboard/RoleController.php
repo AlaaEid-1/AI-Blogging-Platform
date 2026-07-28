@@ -8,18 +8,19 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-   public function index(Request $request)
-{
-    $roles = Role::withCount('users')->get();
+    public function index(Request $request)
+    {
+        $roles = Role::withCount('users')->get();
 
-    $editRole = null; 
+        $editRole = null;
 
-    if ($request->has('edit')) {
-        $editRole = Role::find($request->edit);
+        if ($request->has('edit')) {
+            $editRole = Role::find($request->edit);
+        }
+
+        return view('roles.index', compact('roles', 'editRole'));
     }
 
-    return view('roles.index', compact('roles', 'editRole'));
-}
     public function create()
     {
         return redirect()->route('roles.index');
@@ -29,29 +30,31 @@ class RoleController extends Controller
     // {
     //     return view('roles.index', ['edit' => $role->id]);
     // }
-public function update(Request $request, Role $role)
-{
-    $role->update([
-        'name' => $request->name,
-        'abilities' => $request->abilities ?? [],
-    ]);
+    public function update(Request $request, Role $role)
+    {
+        $role->update([
+            'name' => $request->name,
+            'abilities' => $request->abilities ?? [],
+        ]);
 
-    return redirect()->route('roles.index');
-}
+        return redirect()->route('roles.index');
+    }
+
     public function show(Role $role)
     {
         return view('roles.show', compact('role'));
     }
+
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'abilities' => 'array'
+            'abilities' => 'array',
         ]);
 
         Role::create([
             'name' => $request->name,
-            'abilities' => $request->abilities ?? []
+            'abilities' => $request->abilities ?? [],
         ]);
 
         return redirect()->back();
@@ -60,6 +63,7 @@ public function update(Request $request, Role $role)
     public function destroy(Role $role)
     {
         $role->delete();
+
         return redirect()->back();
     }
 }

@@ -6,28 +6,25 @@ use App\Enums\PostStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostJsonApiResource;
-use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\User;
 use App\Services\PostService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
-use Override;
 use Throwable;
 
 class PostController extends Controller implements HasMiddleware
 {
-
     public static function middleware()
     {
         return [
             new Middleware(
                 middleware: 'auth:sanctum',
                 except: ['index', 'show']
-            )
+            ),
         ];
     }
 
@@ -53,11 +50,11 @@ class PostController extends Controller implements HasMiddleware
     {
         try {
             /**
-             * @var \App\Models\User
+             * @var User
              */
             $user = Auth::guard('sanctum')->user();
 
-            if (!$user->currentAccessToken()->can('posts.create')) {
+            if (! $user->currentAccessToken()->can('posts.create')) {
                 return Response::json([
                     'status' => 'forbidden',
                     'message' => 'You are not allowed to create posts',
@@ -65,14 +62,15 @@ class PostController extends Controller implements HasMiddleware
             }
 
             $post = $service->create($request);
+
             return Response::json([
                 'data' => $post->refresh(),
             ], 201);
         } catch (Throwable $e) {
-            //return new JsonResponse();
+            // return new JsonResponse();
             return Response::json([
                 'status' => 'error',
-                'message' => 'Failed to create post: ' . $e->getMessage(),
+                'message' => 'Failed to create post: '.$e->getMessage(),
             ], 422);
         }
     }
@@ -83,7 +81,7 @@ class PostController extends Controller implements HasMiddleware
     public function show(Post $post)
     {
         if ($post->status !== PostStatus::Published) {
-            //abort(404);
+            // abort(404);
         }
         $post->load(['category:id,name', 'user:id,name,username,avatar']);
 
@@ -97,14 +95,15 @@ class PostController extends Controller implements HasMiddleware
     {
         try {
             $post = $service->update($post, $request);
+
             return Response::json([
                 'data' => $post,
             ], 201);
         } catch (Throwable $e) {
-            //return new JsonResponse();
+            // return new JsonResponse();
             return Response::json([
                 'status' => 'error',
-                'message' => 'Failed to create post: ' . $e->getMessage(),
+                'message' => 'Failed to create post: '.$e->getMessage(),
             ], 422);
         }
     }
@@ -115,6 +114,7 @@ class PostController extends Controller implements HasMiddleware
     public function destroy(Post $post)
     {
         $post->delete();
+
         return Response::noContent();
     }
 }

@@ -53,7 +53,7 @@
                     @continue
                 @endif
                 <div class="flex items-center justify-between gap-3 group">
-                    <a href="{{ route('users.show', $author->username) }}" class="flex items-center gap-3 overflow-hidden flex-1">
+                    <a href="{{ route('profile.show', $author->username) }}" class="flex items-center gap-3 overflow-hidden flex-1">
                         <x-ui.avatar :src="$author->avatar_url ?? asset('images/avatars/blank.png')" :alt="$author->name" size="sm" />
                         <div class="truncate">
                             <h4 class="font-bold text-sm text-text-primary truncate group-hover:text-primary transition-colors">{{ $author->name }}</h4>

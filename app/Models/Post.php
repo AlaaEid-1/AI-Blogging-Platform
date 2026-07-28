@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Storage;
 #[UseResource(PostResource::class)]
 class Post extends Model
 {
+    use HasFactory;
     use Prunable;
     use SoftDeletes;
 
@@ -38,6 +40,7 @@ class Post extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'user_id',
         'category_id',
         'title',
         'content',

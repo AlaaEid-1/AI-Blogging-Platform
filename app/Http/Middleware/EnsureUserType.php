@@ -22,7 +22,7 @@ class EnsureUserType
 
         $response = $next($request);
 
-        //$response->headers->set('x-custom', 'ssss');
+        // $response->headers->set('x-custom', 'ssss');
 
         return $response;
     }

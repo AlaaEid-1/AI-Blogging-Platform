@@ -12,7 +12,6 @@ use Laravel\Sanctum\Sanctum;
 
 class AccessTokenController extends Controller
 {
-
     public function store(Request $request)
     {
         $request->validate([
@@ -25,7 +24,7 @@ class AccessTokenController extends Controller
             ->where('email', '=', $request->post('email'))
             ->first();
 
-        if (!$user || !Hash::check($request->post('password'), $user->password)) {
+        if (! $user || ! Hash::check($request->post('password'), $user->password)) {
             return Response::json([
                 'status' => 'unauthenticated',
                 'message' => 'Invalid email or password',
@@ -49,13 +48,15 @@ class AccessTokenController extends Controller
 
         $user = Auth::guard('sanctum')->user();
 
-        if (!$token) {
+        if (! $token) {
             $user->currentAccessToken()->delete();
+
             return Response::noContent();
         }
 
         if ($token == 'all') {
             $user->tokens()->delete();
+
             return Response::noContent();
         }
 
@@ -66,6 +67,7 @@ class AccessTokenController extends Controller
         ) {
             $token->delete();
         }
+
         return Response::noContent();
     }
 }

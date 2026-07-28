@@ -62,8 +62,7 @@ class FollowNotification extends Notification implements ShouldQueue
             ->line("{$this->follower->name} started following you.")
             ->action('View Profile', route('users.profile', $this->follower->username))
             ->line('Thank you for using our application!')
-            ->salutation('Best regards,')
-        ;
+            ->salutation('Best regards,');
     }
 
     public function toDatabase(object $notifiable): array

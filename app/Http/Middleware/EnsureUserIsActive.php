@@ -16,7 +16,7 @@ class EnsureUserIsActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('login');
         }
 
@@ -28,6 +28,7 @@ class EnsureUserIsActive
 
         if ($user->status === 'suspended') {
             Auth::logout();
+
             return redirect()->route('account.suspended');
             // return redirect()->route('login')->withErrors([
             //     'account' => 'Your account has been suspended Please Contact support team.'

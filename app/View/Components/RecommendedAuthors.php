@@ -10,7 +10,6 @@ use Illuminate\View\Component;
 
 class RecommendedAuthors extends Component
 {
-
     public $authors;
 
     /**
@@ -19,8 +18,8 @@ class RecommendedAuthors extends Component
     public function __construct(public $title = 'Recommended Authors', $count = 3)
     {
         /*
-        SELECT users.*, 
-        (SELECT 1 followers WHERE followers.follower_id = users.id AND followers.user_id = :auth) AS followings_exists 
+        SELECT users.*,
+        (SELECT 1 followers WHERE followers.follower_id = users.id AND followers.user_id = :auth) AS followings_exists
         FROM users LIMIT :count;
         */
 
@@ -28,7 +27,7 @@ class RecommendedAuthors extends Component
             ->withExists([
                 'followers' => function ($query) {
                     $query->where('follower_id', Auth::id() ?? 0);
-                }
+                },
             ])
             ->where('id', '<>', Auth::id() ?? 0)
             ->limit($count)

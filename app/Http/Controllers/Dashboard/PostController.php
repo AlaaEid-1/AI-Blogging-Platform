@@ -7,20 +7,16 @@ use App\Actions\SyncPostTags;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use App\Models\Scopes\OwnerScope;
 use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Number;
-use Illuminate\Support\Str;
 use Throwable;
 
 class PostController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
@@ -46,16 +42,15 @@ class PostController extends Controller
         $posts = $query->with('user')
             ->withCount(['favorites', 'comments'])
             ->withTrashed()
-            //->leftJoin('categories', 'posts.category_id', '=', 'categories.id')
+            // ->leftJoin('categories', 'posts.category_id', '=', 'categories.id')
             ->with('category') // Eager loading
             ->select([
                 'posts.*',
-                //'categories.name as category_name',
+                // 'categories.name as category_name',
             ])
             ->where('status', $status)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-
 
         return view('dashboard.posts.index', [
             'posts' => $posts,
@@ -72,7 +67,7 @@ class PostController extends Controller
         Gate::authorize('create', Post::class);
 
         return view('dashboard.posts.create', [
-            'post' => new Post(),
+            'post' => new Post,
         ]);
     }
 
@@ -89,7 +84,7 @@ class PostController extends Controller
             return back()
                 ->withInput()
                 ->withErrors([
-                    'error' => 'Failed to create post: ' . $e->getMessage(),
+                    'error' => 'Failed to create post: '.$e->getMessage(),
                 ]);
         }
 
@@ -135,7 +130,7 @@ class PostController extends Controller
 
         $clean = $request->validated();
         $data = \array_merge($clean, [
-            'cover_image' => $fileUpload->handle(key: 'cover', path: 'covers')
+            'cover_image' => $fileUpload->handle(key: 'cover', path: 'covers'),
         ]);
 
         try {
@@ -148,14 +143,13 @@ class PostController extends Controller
             return back()
                 ->withInput()
                 ->withErrors([
-                    'error' => 'Failed to update post: ' . $e->getMessage(),
+                    'error' => 'Failed to update post: '.$e->getMessage(),
                 ]);
         }
 
-
         $previous = $post->getPrevious();
         $prev_cover_image = $previous['cover_image'] ?? null;
-        if (!empty($prev_cover_image) &&$prev_cover_image !== $post->cover_image) {
+        if (! empty($prev_cover_image) && $prev_cover_image !== $post->cover_image) {
             Storage::disk('public')->delete($previous['cover_image']); // Delete the old cover image from storage
         }
 
@@ -169,7 +163,7 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //Post::destroy($id);
+        // Post::destroy($id);
         $post = Post::findOrFail($id);
         Gate::authorize('delete', $post);
         $post->delete();

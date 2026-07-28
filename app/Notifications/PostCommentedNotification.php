@@ -2,8 +2,9 @@
 
 namespace App\Notifications;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -14,7 +15,7 @@ class PostCommentedNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(protected \App\Models\Post $post, protected \App\Models\User $user, protected string $commentContent)
+    public function __construct(protected Post $post, protected User $user, protected string $commentContent)
     {
         //
     }
@@ -37,9 +38,9 @@ class PostCommentedNotification extends Notification
         return (new MailMessage)
             ->subject('New comment on your post')
             ->line("{$this->user->name} commented on your post: {$this->post->title}")
-            ->line("Comment:")
+            ->line('Comment:')
             ->line("\"{$this->commentContent}\"")
-            ->action('View Comment', route('posts.show', $this->post->slug) . '#comments')
+            ->action('View Comment', route('posts.show', $this->post->slug).'#comments')
             ->line('Thank you for using our application!');
     }
 
@@ -53,7 +54,7 @@ class PostCommentedNotification extends Notification
         return [
             'title' => 'New Comment',
             'body' => "{$this->user->name} commented on your post: {$this->post->title}",
-            'link' => route('posts.show', $this->post->slug) . '#comments',
+            'link' => route('posts.show', $this->post->slug).'#comments',
             'meta' => [
                 'user_id' => $this->user->id,
                 'user_avatar' => $this->user->avatar_url,

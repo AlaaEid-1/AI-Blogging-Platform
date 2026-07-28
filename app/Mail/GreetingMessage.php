@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
@@ -53,7 +52,7 @@ class GreetingMessage extends Mailable
     public function attachments(): array
     {
         return [
-            storage_path('app/private/file.pdf')
+            storage_path('app/private/file.pdf'),
         ];
     }
 }

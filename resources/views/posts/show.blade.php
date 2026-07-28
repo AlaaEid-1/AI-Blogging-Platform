@@ -17,7 +17,7 @@
                     <x-ui.avatar :src="$post->user?->avatar_url ?? asset('images/avatars/blank.png')" :alt="$post->user?->name ?? 'Unknown User'" size="lg" className="ring-4 ring-surface shadow-md" />
                     <div>
                         <div class="flex items-center gap-1.5 mb-1">
-                            <a href="{{ route('users.show', $post->user?->username ?? 'unknown') }}" class="font-bold text-text-primary text-lg hover:underline">{{ $post->user?->name ?? 'Unknown User' }}</a>
+                            <a href="{{ route('profile.show', $post->user?->username ?? 'unknown') }}" class="font-bold text-text-primary text-lg hover:underline">{{ $post->user?->name ?? 'Unknown User' }}</a>
                             @if($post->user?->hasAbility('verified') ?? false)
                                 <span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">verified</span>
                             @endif
@@ -33,7 +33,7 @@
                 </div>
                 
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('users.show', $post->user?->username ?? 'unknown') }}" class="flex items-center justify-center gap-2 px-4 py-2 border border-border/60 text-sm font-bold rounded-xl text-text-secondary bg-surface hover:bg-surface-hover hover:text-text-primary transition-colors active:scale-95 shadow-sm">
+                    <a href="{{ route('profile.show', $post->user?->username ?? 'unknown') }}" class="flex items-center justify-center gap-2 px-4 py-2 border border-border/60 text-sm font-bold rounded-xl text-text-secondary bg-surface hover:bg-surface-hover hover:text-text-primary transition-colors active:scale-95 shadow-sm">
                         <span class="material-symbols-outlined text-[18px]">person</span> View Profile
                     </a>
                 </div>

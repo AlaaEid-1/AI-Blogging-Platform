@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
@@ -46,6 +45,7 @@ class NotificationController extends Controller
 
         return redirect()->route('dashboard.notifications.index');
     }
+
     public function markAllRead()
     {
         $user = auth()->user();
@@ -54,6 +54,7 @@ class NotificationController extends Controller
 
         return back();
     }
+
     public function markAllUnRead()
     {
         $user = auth()->user();

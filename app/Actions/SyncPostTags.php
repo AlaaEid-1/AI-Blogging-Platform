@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Support\Str;
 
 class SyncPostTags
@@ -20,6 +21,7 @@ class SyncPostTags
         $tags = is_string($tags) ? explode(',', $tags) : $tags;
         if (empty($tags)) {
             $post->tags()->detach();
+
             return;
         }
 
@@ -30,7 +32,7 @@ class SyncPostTags
                 continue;
             }
             $tag_slug = Str::slug($tag_name);
-            $tag = \App\Models\Tag::firstOrCreate(
+            $tag = Tag::firstOrCreate(
                 ['slug' => $tag_slug],
                 ['name' => $tag_name]
             );

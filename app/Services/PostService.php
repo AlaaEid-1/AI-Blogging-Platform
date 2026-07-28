@@ -48,7 +48,7 @@ class PostService
     {
         $clean = $request->validated();
         $data = \array_merge($clean, [
-            'cover_image' => $this->fileUpload->handle(key: 'cover', path: 'covers')
+            'cover_image' => $this->fileUpload->handle(key: 'cover', path: 'covers'),
         ]);
 
         try {

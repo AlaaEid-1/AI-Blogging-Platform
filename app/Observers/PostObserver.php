@@ -14,8 +14,13 @@ class PostObserver
      */
     public function creating(Post $post): void
     {
-        $post->slug = Str::slug($post->title);
-        $post->user_id = Auth::id() ?? 4;
+        if (empty($post->slug)) {
+            $post->slug = Str::slug($post->title);
+        }
+
+        if (empty($post->user_id) && Auth::check()) {
+            $post->user_id = Auth::id();
+        }
     }
 
     /**

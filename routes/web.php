@@ -25,10 +25,13 @@ Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send')->w
 Route::get('/posts/{slug}', [App\Http\Controllers\PostController::class, 'show'])
     ->name('posts.show');
 
-Route::get('/users/{username}', [ProfileController::class, 'show'])
+Route::get('/users/{user:username}', [ProfileController::class, 'show'])
     ->name('profile.show');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
+
     Route::post('/posts/{post}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
     Route::post('/posts/{post}/bookmark', [BookmarkController::class, 'toggle'])->name('posts.bookmark');
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');

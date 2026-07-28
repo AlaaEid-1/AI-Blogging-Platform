@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,19 +13,19 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        //DB::table('users')->delete();
+        // DB::table('users')->delete();
         // suspended
-// DB::table('users')->insert([
-//             'name' => 'Menna Eid',
-//             'email' => 'MennaEid@gmail.com',
-//             'email_verified_at' => now(),
-//             'password' => Hash::make('password'),
-//             'username' => 'MennaEid',
-//             'timezone' => 'Asia/Gaza',
-//             'status' => 'suspended',
-//             'created_at' => now(),
-//             'updated_at' => now(),
-//         ]);
+        // DB::table('users')->insert([
+        //             'name' => 'Menna Eid',
+        //             'email' => 'MennaEid@gmail.com',
+        //             'email_verified_at' => now(),
+        //             'password' => Hash::make('password'),
+        //             'username' => 'MennaEid',
+        //             'timezone' => 'Asia/Gaza',
+        //             'status' => 'suspended',
+        //             'created_at' => now(),
+        //             'updated_at' => now(),
+        //         ]);
         // DB::table('users')->insert([
         //     'name' => 'Admin',
         //     'email' => 'admin@example.net',
@@ -39,17 +38,17 @@ class UserSeeder extends Seeder
         //     'created_at' => now(),
         //     'updated_at' => now(),
         // ]);
-    // DB::table('users')->insert([
-    //         'name' => 'Alaa Eid',
-    //         'email' => 'AlaaEid@gmail.com',
-    //         'email_verified_at' => now(),
-    //         'password' => Hash::make('password'),
-    //         'username' => 'AlaaEid',
-    //         'timezone' => 'Asia/Gaza',
-    //         'status' => 'active',
-    //         'created_at' => now(),
-    //         'updated_at' => now(),
-    //     ]);
+        // DB::table('users')->insert([
+        //         'name' => 'Alaa Eid',
+        //         'email' => 'AlaaEid@gmail.com',
+        //         'email_verified_at' => now(),
+        //         'password' => Hash::make('password'),
+        //         'username' => 'AlaaEid',
+        //         'timezone' => 'Asia/Gaza',
+        //         'status' => 'active',
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]);
         DB::table('users')->insert([
             'name' => 'Sami Eid',
             'email' => 'SamiEid@gmail.com',

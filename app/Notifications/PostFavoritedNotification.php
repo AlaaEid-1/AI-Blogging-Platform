@@ -2,8 +2,9 @@
 
 namespace App\Notifications;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -14,7 +15,7 @@ class PostFavoritedNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(protected \App\Models\Post $post, protected \App\Models\User $user)
+    public function __construct(protected Post $post, protected User $user)
     {
         //
     }

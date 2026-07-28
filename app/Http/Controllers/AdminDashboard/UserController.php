@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\AdminDashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         // Handled by middleware: auth, type:super-admin,admin, can:update,User
-        
+
         $users = User::with('roles')->paginate(20);
         $roles = Role::all();
 
@@ -89,9 +89,9 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         Gate::authorize('delete', $user);
-        
+
         $user->delete();
-        
+
         return redirect()->route('users.index')->with('status', 'User deleted successfully!');
     }
 }

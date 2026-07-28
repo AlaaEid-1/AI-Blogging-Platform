@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\Post;
+use App\Notifications\PostCommentedNotification;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -9,7 +12,7 @@ class CommentController extends Controller
     public function store(Request $request, $postId)
     {
         $request->validate(['content' => 'required|string|max:1000']);
-        $post = \App\Models\Post::findOrFail($postId);
+        $post = Post::findOrFail($postId);
 
         $comment = $post->comments()->create([
             'user_id' => $request->user()->id,
@@ -18,7 +21,7 @@ class CommentController extends Controller
         ]);
 
         if ($post->user_id !== $request->user()->id && $post->user) {
-            $post->user->notify(new \App\Notifications\PostCommentedNotification($post, $request->user(), $comment->content));
+            $post->user->notify(new PostCommentedNotification($post, $request->user(), $comment->content));
         }
 
         return back()->with('status', 'Comment added.');
@@ -26,13 +29,14 @@ class CommentController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $comment = \App\Models\Comment::findOrFail($id);
-        
-        if ($request->user()->id !== $comment->user_id && !$request->user()->hasAbility('posts.manage_all')) {
+        $comment = Comment::findOrFail($id);
+
+        if ($request->user()->id !== $comment->user_id && ! $request->user()->hasAbility('posts.manage_all')) {
             abort(403);
         }
 
         $comment->delete();
+
         return back()->with('status', 'Comment deleted.');
     }
 }
